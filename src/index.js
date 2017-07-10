@@ -1,11 +1,9 @@
 import {getUsers, deleteUser} from './api/userApi';
-//import $ from 'jquery';
 
-let numUsers = 0;
+
 getUsers().then(result => {
   let usersBody = "";
-  numUsers = result.length;
-  console.log("number of users: "+numUsers);//eslint-disable-line no-console
+
   result.forEach(user => {
     usersBody+=`<tr>
 
@@ -18,7 +16,10 @@ getUsers().then(result => {
       </tr>`
   });
 
+
   global.document.getElementById('users').innerHTML = usersBody;
+
+  updateNumUsers();
 
   const deleteLinks = global.document.getElementsByClassName('btn btn-primary btn-med');
   Array.from(deleteLinks, link => {
@@ -29,7 +30,13 @@ getUsers().then(result => {
       deleteUser(element.attributes["data-id"].value);
       const row = element.parentNode.parentNode.parentNode;
       row.parentNode.removeChild(row);
+      updateNumUsers()
     };
   });
 
 });
+
+function updateNumUsers(){
+  const numUsers = global.document.getElementsByClassName('btn btn-primary btn-med').length;
+  document.getElementById('userCount').innerHTML = "<h1> Users ("+numUsers+")</h1>";
+}
