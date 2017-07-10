@@ -8,6 +8,7 @@ export function getUsers(){
 }
 
 export function deleteUser(id){
+  console.log("user id to delete: "+id);
   del(`users/${id}`);
 }
 
